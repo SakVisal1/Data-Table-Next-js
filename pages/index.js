@@ -6,8 +6,8 @@ import DataTable , { createTheme } from 'react-data-table-component';
 import DataProduct from '@/components/product';
 import React, { useEffect, useState } from 'react'
 import axios from 'axios';
-import handler from './api/hello';
-import { Input } from 'postcss';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 const inter = Inter({ subsets: ['latin'] })
@@ -22,6 +22,22 @@ export default function Home() {
         setFilterProducts(response.data)
         console.log(product)
   }
+
+  const notify = () => {
+    toast.warn("Edit successfully !" , {
+      theme : "colored",
+      autoClose: 1000,
+      position: "bottom-right",
+    });
+  };
+
+  const notify1 = () => {
+    toast.error("Delete successfully !" , {
+      theme : "colored",
+      autoClose: 1000,
+      position: "bottom-right",
+    });
+  };
 
   const columns= [
     {
@@ -39,11 +55,18 @@ export default function Home() {
   },
     {
         name: "Photo",
-        selector: row => <img src={row.images} width={100} height={100}/>,
+        selector: row => <img src={row.images} width={100} style={{'borderRadius':'20px','margin':'10px'}}/>
+        ,
     },
     {
-      name: "Action",
-      cell: (row) =>  <button className='btn btn-warning' onClick={() => alert(row.id)}>Edit</button>,
+      name: "Action Edit",
+      cell: (row) =>  <button className='btn btn-warning' onClick={notify}>Edit</button>
+      ,
+    },
+    {
+      name: "Action Delete",
+      cell: (row) =>  <button className='btn btn-danger' onClick={notify1}>Delete</button>
+      ,
     },
 ]
 
@@ -53,29 +76,33 @@ export default function Home() {
 
   useEffect(() => {
       const result = product.filter(products => {
-        return products.category.name.toLowerCase().match(search.toLowerCase());
+        return products.title.toLowerCase().match(search.toLowerCase());
       });
       setFilterProducts(result);
   },[search])
 
   return (
-      <Layout>
-          <DataTable
-          title='Products'
-          columns={columns}
-          data={filterProducts}
-          pagination
-          fixedHeader
-          fixedHeaderScrollHeight='500px'
-          subHeader
-          subHeaderComponent={
-            <input type='text'
-             placeholder='Search Here'
-              className='form-control w-25'
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}/>
-          }
-          />
+      <Layout className='bg-white'>
+        <main className='container bg-light '>
+        <h1> Products Collection - Table</h1>
+        <DataTable
+        title='All Products Listing'
+        columns={columns}
+        data={filterProducts}
+        pagination
+        fixedHeader
+        fixedHeaderScrollHeight='500px'
+        subHeader
+        subHeaderComponent={
+          <input type='text'
+           placeholder='Search Here'
+            className='form-control w-25'
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}/>
+        }
+        />
+        <ToastContainer/>
+        </main>
       </Layout>
   )
 }
