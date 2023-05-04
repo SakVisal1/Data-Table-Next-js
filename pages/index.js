@@ -59,15 +59,13 @@ export default function Home() {
         ,
     },
     {
-      name: "Action Edit",
-      cell: (row) =>  <button className='btn btn-warning' onClick={notify}>Edit</button>
-      ,
-    },
-    {
-      name: "Action Delete",
-      cell: (row) =>  <button className='btn btn-danger' onClick={notify1}>Delete</button>
-      ,
-    },
+        name: "Action",
+        cell: (row) =>  <>
+        <button className='btn btn-warning m-2' onClick={notify}>Edit</button>
+        <button className='btn btn-danger' onClick={notify1}>Delete</button>
+        </>,
+      },
+
 ]
 
   useEffect(() => {
