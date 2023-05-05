@@ -26,6 +26,7 @@ export default function Home() {
   const notify = () => {
     toast.warn("Edit successfully !" , {
       theme : "colored",
+      icon: "🚀",
       autoClose: 1000,
       position: "bottom-right",
     });
@@ -35,6 +36,7 @@ export default function Home() {
     toast.error("Delete successfully !" , {
       theme : "colored",
       autoClose: 1000,
+      icon:"🎂",
       position: "bottom-right",
     });
   };
